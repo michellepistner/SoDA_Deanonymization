@@ -7,8 +7,7 @@ output:
    html_document:
     toc: true
     toc_float: true
-    theme: readable
-    highlight: zenburn 
+
 ---
 
 ```{r setup, include=FALSE}
@@ -85,7 +84,7 @@ nltk.Tree.fromstring(tree[0]).pretty_print()
 
 ```
 
-We want to extract both the total number of occurrences of each part of speech and the parent/child note pairs (i.e. (WHNP, WDT) , (PP,NP)).
+We want to extract both the total number of occurrences of each part of speech and the parent/child note pairs (i.e. (WHNP, WDT), (PP,NP)).
 
 All in all, the Stanford Parser outputs 5 clause level labels, 21 phrase level labels, 36 word level labels, and 9 punctuation tags. A list of all labels and their meanings can be found [here](http://www.surdeanu.info/mihai/teaching/ista555-fall13/readings/PennTreebankConstituents.html).
 
@@ -124,7 +123,8 @@ Next, I defined the feature variable names that we are interested in. The parts 
 ```{python, eval=FALSE}
 
 partsOfSpeech=("NN","PRP","CC","CD","DT","EX","FW","IN","JJ","JJR","JJS","LS","MD","NNS","NNP","NNPS","PDT","POS","PRP$","RB","RBR","RBS","RP","SYM","TO","UH","VB","VBD","VBG","VBN","VBP","VBZ","WDT","WP","WP$","WRB")
-phrases=(('S', 'ADJP'),('S', 'ADVP'),('S', 'CONJP'),('S', 'FRAG'),('S', 'INTJ'),('S', 'LST'), ('S', 'NAC'), ('S', 'NP'),('S', 'NX'),('S', 'PP'),('S', 'PRN'), ('S', 'PRT'), ('S', 'QP'), ('S', 'RRC'), ('S', 'UCP'), ('S', 'VP'),...)
+phrases=phrases=('(S, ADJP)','(S, ADVP)','(S, CONJP)','(S, FRAG)','(S, INTJ)','(S, LST)', '(S, NAC)', '(S, NP)','(S, NX)','(S, PP)','(S, PRN)', '(S, PRT)', '(S, QP)', '(S, RRC)', '(S, UCP)', '(S, VP)',...) 
+
 pos_col = list(map(lambda x: "pos_{}".format(x), partsOfSpeech))
 phr_col = list(map(lambda x: "phr_{}".format(x), phrases))
 other_vars=["id","author","subreddit"]
@@ -318,7 +318,7 @@ output = nlp.annotate(text, properties={
         })
 
 tree=[s['parse'] for s in output['sentences']]
-nltk.Tree.fromstring(tree[1]).pretty_print()
+nltk.Tree.fromstring(tree[0]).pretty_print()
 
 pos=()
 for s in output["sentences"]:
