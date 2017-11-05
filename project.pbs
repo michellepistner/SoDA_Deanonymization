@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=1
+#PBS -l walltime=24:00:00
+#PBS -l mem=1gb
+#PBS -M map5672@psu.edu
+#PBS -m abe
+#PBS -A open
+
+cd stanford-corenlp-full-2017-06-09
+module load java
+java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer
+
+cd ..
+module load python
+python parser.py
