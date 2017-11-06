@@ -242,7 +242,13 @@ div.tocify {
 <p>The <a href="https://nlp.stanford.edu/software/lex-parser.shtml">Stanford Parser</a> is a natural language processing tool that can be used to extract parts of speech and relationships between words. It can also extract other information about a text, including sentiment and named entities It supports many languages, including English, Spanish, Chinese, and German.</p>
 <p>The parser is written in Java, but many programming languages have some sort of wrapper for the parser. For my project, I’m using Python’s <code>pycorenlp</code>, but many other wrappers exist. There is a (relatively) new R package <code>coreNLP</code> that I also found easy to use, but it was slower than Python’s version and less easy to manipulate for this project.</p>
 <p>If you are using <code>pycorenlp</code>, you will need to take steps to start the server for Stanford’s parser. The first step is to <a href="https://nlp.stanford.edu/software/lex-parser.shtml#Download">download the server</a> and <a href="https://java.com/en/download/">Java</a>. Next, you need to actually start the server. This step is straightforward; run the following from the command line in the directory that contains the downloaded server.</p>
-<pre class="pyton"><code>java -mx4g -cp &quot;*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000</code></pre>
+<style>
+div.blue pre { background-color:lightblue; }
+div.blue pre.r { background-color:blue; }
+</style>
+<div class="blue">
+<pre class="cpp"><code>java -mx4g -cp &quot;*&quot; edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000</code></pre>
+</div>
 <p>Once the server is up and running, you are ready to parse!</p>
 <p>Following Narayanan’s example (2012), suppose we want to extract the parse tree and parts of speech for the sentence “Which of these people wrote this blog post?”</p>
 <p>This is fairly straightforward to do using the <code>annotate</code> command from the <code>pycorenlp</code> module. The <code>properties</code> definition allows you to specify what specifically the parser should return. Here, we want the parts of speech tagger and the parse tree.</p>

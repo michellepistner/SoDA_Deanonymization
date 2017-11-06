@@ -40,9 +40,16 @@ The parser is written in Java, but many programming languages have some sort of 
 
 If you are using `pycorenlp`, you will need to take steps to start the server for Stanford's parser. The first step is to [download the server](https://nlp.stanford.edu/software/lex-parser.shtml#Download) and [Java](https://java.com/en/download/). Next, you need to actually start the server. This step is straightforward; run the following from the command line in the directory that contains the downloaded server.
 
-```{pyton, eval=FALSE}
+<style>
+div.blue pre { background-color:lightblue; }
+div.blue pre.r { background-color:blue; }
+</style>
+
+<div class = "blue">
+```{r, eval=FALSE, engine='Rcpp'}
 java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer -port 9000 -timeout 15000
 ```
+</div>
 
 Once the server is up and running, you are ready to parse!
 
