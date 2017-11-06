@@ -1,5 +1,4 @@
 ##Importing the required libraries
-import pandas as pd
 import bz2
 import glob
 import json
@@ -42,15 +41,6 @@ file= open("phrase_features.csv", 'w')
 fwriter = csv.DictWriter(file, fieldnames = other_vars + pos_col + phr_col)
 fwriter.writeheader()
 
-def tails(items, path=()):
-    for child in items:
-        if type(child) is nltk.Tree:
-            if child.label() in {".", ","}:  # ignore punctuation
-                continue
-            for result in tails(child, path + (child.label(),)):
-                yield result
-        else:
-            yield path[-2:]
             
 def PhrasePairs(tmp):
     tmp=tmp.productions()
@@ -77,7 +67,6 @@ with bz2.BZ2File(files[0],mode="r") as f: ##Have to read line by line
     for line in f:
         tmp = f.readline().decode('utf8')
         comment=json.loads(tmp)
-        print(comment['body'])
         ##We don't want to include deleted authors or deleted body text.
         if comment['author'] == "[deleted]":
             continue
@@ -103,17 +92,17 @@ with bz2.BZ2File(files[0],mode="r") as f: ##Have to read line by line
             pos=pos+(tuple(s))
         PartsSpeech = ["pos_{}".format(word) for word in pos if word in partsOfSpeech]
         pos_count=Counter(PartsSpeech) 
-        rowdict = {key: value for key, value in pos_count.items()}
+        features = {key: value for key, value in pos_count.items()}
         
         tmp=()
         for s in output["sentences"]:
-            tmp=tmp+ (tuple(PhrasePairs(nltk.Tree.fromstring(s["parse"]))))
+            sentParse=s["parse"].encode('ascii','ignore').decode('ascii')
+            tmp=tmp+ (tuple(PhrasePairs(nltk.Tree.fromstring(sentParse))))
             
         Phrases = ["phr_{}".format(phrase) for phrase in tmp if phrase in phrases]
         phrase_count=Counter(Phrases)
-        rowdict.update(phrase_count)
-        features={"id":comment['id'],"author":comment['author'],"subreddit":comment['subreddit']}
-        rowdict.update(features)
-        fwriter.writerow(rowdict)
+        features.update(phrase_count)
+        comfeat={"id":comment['id'],"author":comment['author'],"subreddit":comment['subreddit']}
+        features.update(comfeat)
+        fwriter.writerow(features)
 
-jh m
