@@ -202,7 +202,7 @@ Sometimes, the parser will time out for long or complex comments. We can filter 
             pos=pos+(tuple(s))
         PartsSpeech = ["pos_{}".format(word) for word in pos if word in partsOfSpeech]
         pos_count=Counter(PartsSpeech) 
-        rowdict = {key: value for key, value in pos_count.items()}
+        features = {key: value for key, value in pos_count.items()}
 ```
 
 We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the `tails` function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.
@@ -213,7 +213,7 @@ We do a similar procedure to extract parent/child pairs. First, for each sentenc
             
         Phrases = ["phr_{}".format(phrase) for phrase in tmp if phrase in phrases]
         phrase_count=Counter(Phrases)
-        rowdict.update(phrase_count)
+        features.update(phrase_count)
         
 ```
 
@@ -221,8 +221,8 @@ Finally, we extract the  ID, author, and subreddit for each comment so these fea
 
 Then, we write this dictionary to the file we declared at the beginning of the code.
 ```{python,eval=FALSE}
-        features={"id":comment['id'],"author":comment['author'],"subreddit":comment['subreddit']}
-        rowdict.update(features)
+        commFeat={"id":comment['id'],"author":comment['author'],"subreddit":comment['subreddit']}
+        features.update(commFeat)
         fwriter.writerow(rowdict)
         
 ```

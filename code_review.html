@@ -381,7 +381,7 @@ with bz2.BZ2File(files[0],mode=&quot;r&quot;) as f: ##Have to read line by line
             pos=pos+(tuple(s))
         PartsSpeech = [&quot;pos_{}&quot;.format(word) for word in pos if word in partsOfSpeech]
         pos_count=Counter(PartsSpeech) 
-        rowdict = {key: value for key, value in pos_count.items()}</code></pre>
+        features = {key: value for key, value in pos_count.items()}</code></pre>
 <p>We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the <code>tails</code> function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.</p>
 <pre class="python"><code>        tmp=()
         for s in output[&quot;sentences&quot;]:
@@ -389,12 +389,12 @@ with bz2.BZ2File(files[0],mode=&quot;r&quot;) as f: ##Have to read line by line
             
         Phrases = [&quot;phr_{}&quot;.format(phrase) for phrase in tmp if phrase in phrases]
         phrase_count=Counter(Phrases)
-        rowdict.update(phrase_count)
+        features.update(phrase_count)
         </code></pre>
 <p>Finally, we extract the ID, author, and subreddit for each comment so these features can be merged later with other features that count the prevalence of characters, punctuation marks, feature words, etc.</p>
 <p>Then, we write this dictionary to the file we declared at the beginning of the code.</p>
-<pre class="python"><code>        features={&quot;id&quot;:comment['id'],&quot;author&quot;:comment['author'],&quot;subreddit&quot;:comment['subreddit']}
-        rowdict.update(features)
+<pre class="python"><code>        commFeat={&quot;id&quot;:comment['id'],&quot;author&quot;:comment['author'],&quot;subreddit&quot;:comment['subreddit']}
+        features.update(commFeat)
         fwriter.writerow(rowdict)
         </code></pre>
 </div>
