@@ -135,6 +135,11 @@ phrases=phrases=('(S, ADJP)','(S, ADVP)','(S, CONJP)','(S, FRAG)','(S, INTJ)','(
 pos_col = list(map(lambda x: "pos_{}".format(x), partsOfSpeech))
 phr_col = list(map(lambda x: "phr_{}".format(x), phrases))
 other_vars=["id","author","subreddit"]
+
+file= open("phrase_features.csv", 'w')
+fwriter = csv.DictWriter(file, fieldnames = other_vars + pos_col + phr_col)
+fwriter.writeheader()
+
 ```
 
 
@@ -173,7 +178,6 @@ with bz2.BZ2File(files[0],mode="r") as f: ##Have to read line by line
     for line in f:
         tmp = f.readline().decode('utf8')
         comment=json.loads(tmp)
-        print(comment['body'])
         ##We don't want to include deleted authors or deleted body text.
         if comment['author'] == "[deleted]":
             continue
@@ -230,7 +234,7 @@ Then, we write this dictionary to the file we declared at the beginning of the c
 ```{python,eval=FALSE}
         commFeat={"id":comment['id'],"author":comment['author'],"subreddit":comment['subreddit']}
         features.update(commFeat)
-        fwriter.writerow(rowdict)
+        fwriter.writerow(features)
         
 ```
 

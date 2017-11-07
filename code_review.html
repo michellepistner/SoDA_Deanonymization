@@ -328,7 +328,12 @@ phrases=phrases=('(S, ADJP)','(S, ADVP)','(S, CONJP)','(S, FRAG)','(S, INTJ)','(
 
 pos_col = list(map(lambda x: &quot;pos_{}&quot;.format(x), partsOfSpeech))
 phr_col = list(map(lambda x: &quot;phr_{}&quot;.format(x), phrases))
-other_vars=[&quot;id&quot;,&quot;author&quot;,&quot;subreddit&quot;]</code></pre>
+other_vars=[&quot;id&quot;,&quot;author&quot;,&quot;subreddit&quot;]
+
+file= open(&quot;phrase_features.csv&quot;, 'w')
+fwriter = csv.DictWriter(file, fieldnames = other_vars + pos_col + phr_col)
+fwriter.writeheader()
+</code></pre>
 </div>
 <div id="feature-extraction" class="section level3">
 <h3>Feature extraction</h3>
@@ -359,7 +364,6 @@ with bz2.BZ2File(files[0],mode=&quot;r&quot;) as f: ##Have to read line by line
     for line in f:
         tmp = f.readline().decode('utf8')
         comment=json.loads(tmp)
-        print(comment['body'])
         ##We don't want to include deleted authors or deleted body text.
         if comment['author'] == &quot;[deleted]&quot;:
             continue
@@ -401,7 +405,7 @@ with bz2.BZ2File(files[0],mode=&quot;r&quot;) as f: ##Have to read line by line
 <p>Then, we write this dictionary to the file we declared at the beginning of the code.</p>
 <pre class="python"><code>        commFeat={&quot;id&quot;:comment['id'],&quot;author&quot;:comment['author'],&quot;subreddit&quot;:comment['subreddit']}
         features.update(commFeat)
-        fwriter.writerow(rowdict)
+        fwriter.writerow(features)
         </code></pre>
 </div>
 </div>
