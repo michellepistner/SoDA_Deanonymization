@@ -216,7 +216,7 @@ Sometimes, the parser will time out for long or complex comments. We can filter 
         features = {key: value for key, value in pos_count.items()}
 ```
 
-We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the `tails` function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.
+We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the `PhrasePairs` function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.
 ```{python, eval=FALSE}
         tmp=()
         for s in output["sentences"]:

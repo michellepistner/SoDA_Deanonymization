@@ -392,7 +392,7 @@ with bz2.BZ2File(files[0],mode=&quot;r&quot;) as f: ##Have to read line by line
         PartsSpeech = [&quot;pos_{}&quot;.format(word) for word in pos if word in partsOfSpeech]
         pos_count=Counter(PartsSpeech) 
         features = {key: value for key, value in pos_count.items()}</code></pre>
-<p>We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the <code>tails</code> function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.</p>
+<p>We do a similar procedure to extract parent/child pairs. First, for each sentence parse, we use the <code>PhrasePairs</code> function to extract the parent/child pairs. Then, we count the number of each of the pairs from the list defined above. Then, we update the dictionary that we already created.</p>
 <pre class="python"><code>        tmp=()
         for s in output[&quot;sentences&quot;]:
             tmp=tmp+ (tuple(PhrasePairs(nltk.Tree.fromstring(s[&quot;parse&quot;]))))
